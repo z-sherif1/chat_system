@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment (Venv)
+venv/
+env/
+ENV/
+
+# Django local settings & database (يمكنك إزالة db.sqlite3 لو حابب ترفعها، بس الأفضل تسيبها متجاهلة)
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+
+# IDEs & OS files (VS Code, PyCharm, Mac/Windows junk)
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

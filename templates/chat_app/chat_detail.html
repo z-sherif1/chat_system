@@ -1,0 +1,242 @@
+{% extends 'chat_app/base.html' %}
+{% load static %}
+
+{% block title %}Chat with {{ friend.username }} | ChatFlow{% endblock %}
+{% block page_heading %}Conversation{% endblock %}
+
+{% block content %}
+
+<div class="chat-container">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+
+        <a href="{% url 'home' %}" class="chat-back-btn" title="Back to Messages">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+
+        <div class="chat-card-avatar">
+            {% if friend.profile and friend.profile.image %}
+                <img src="{{ friend.profile.image.url }}"
+                     alt="{{ friend.username }}"
+                     class="avatar-img">
+            {% else %}
+                {{ friend.username|first|upper }}
+            {% endif %}
+            {% if friend.profile and friend.profile.is_online %}
+                <span class="avatar-presence-badge"></span>
+            {% endif %}
+        </div>
+
+        <div class="chat-header-info">
+            <h6>{{ friend.username }}</h6>
+            <p>
+                {% if friend.profile and friend.profile.is_online %}
+                    <span class="online-dot"></span>
+                    <span>Online</span>
+                {% elif friend.profile and friend.profile.last_seen %}
+                    <span class="status-indicator is-offline"></span>
+                    <span>Last seen {{ friend.profile.last_seen|timesince }} ago</span>
+                {% else %}
+                    <span class="online-dot"></span>
+                    <span>Conversation</span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="chat-header-actions">
+            <button type="button"
+                    class="btn-icon"
+                    data-bs-toggle="modal"
+                    data-bs-target="#friendProfileModal"
+                    title="View participant info">
+                <i class="bi bi-info-circle"></i>
+            </button>
+
+            <div class="cf-dropdown" data-dropdown>
+                <button type="button"
+                        class="btn-icon"
+                        data-dropdown-toggle
+                        title="Conversation options"
+                        aria-label="Conversation options">
+                    <i class="bi bi-three-dots"></i>
+                </button>
+                <div class="cf-dropdown-menu">
+                    <button type="button"
+                            class="cf-dropdown-item"
+                            data-bs-toggle="modal"
+                            data-bs-target="#friendProfileModal">
+                        <i class="bi bi-person-Vcard"></i>
+                        <span>Contact Info</span>
+                    </button>
+                    <button type="button"
+                            class="cf-dropdown-item"
+                            id="scrollToBottomMenuBtn">
+                        <i class="bi bi-arrow-down-circle"></i>
+                        <span>Jump to Latest</span>
+                    </button>
+                    <div class="cf-dropdown-divider"></div>
+                    <a href="{% url 'home' %}" class="cf-dropdown-item">
+                        <i class="bi bi-grid"></i>
+                        <span>All Conversations</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Messages Stream -->
+    <div class="chat-messages" id="chatMessages">
+
+        {% if messages %}
+            <div class="chat-session-pill">
+                <i class="bi bi-lock-fill me-1"></i>
+                Direct conversation with {{ friend.username }}
+            </div>
+        {% endif %}
+
+        {% for message in messages %}
+
+            {% if message.sender == request.user %}
+                <!-- Sent Message -->
+                <div class="message sent">
+                    <div class="message-bubble">
+                        {{ message.content|linebreaksbr }}
+                    </div>
+                    <span class="message-time">
+                        {{ message.created_at|date:"h:i A" }}
+                    </span>
+                </div>
+            {% else %}
+                <!-- Received Message -->
+                <div class="message received">
+                    <div class="message-bubble">
+                        {{ message.content|linebreaksbr }}
+                    </div>
+                    <span class="message-time">
+                        {{ message.created_at|date:"h:i A" }}
+                    </span>
+                </div>
+            {% endif %}
+
+        {% empty %}
+            <div class="empty-state my-auto">
+                <div class="empty-state-icon">
+                    <i class="bi bi-chat-heart"></i>
+                </div>
+                <h5>Start your conversation</h5>
+                <p>Send your first message to {{ friend.username }} below.</p>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- Floating Jump-to-Bottom Button -->
+    <button type="button"
+            class="chat-scroll-bottom-btn"
+            id="scrollBottomBtn"
+            title="Scroll to latest messages"
+            aria-label="Scroll to latest messages">
+        <i class="bi bi-chevron-down"></i>
+    </button>
+
+    <!-- Message Composer (Standard Django POST Form) -->
+    <div class="chat-input-area">
+        <form method="POST"
+              action="{% url 'send_message' chat.id %}"
+              class="chat-input-form"
+              id="chatMessageForm">
+
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="content"
+                id="chatMessageInput"
+                class="chat-input"
+                placeholder="Write a message to {{ friend.username }}..."
+                autocomplete="off"
+                required
+            >
+
+            <button type="submit" class="send-btn" title="Send message">
+                <i class="bi bi-send-fill"></i>
+            </button>
+
+        </form>
+    </div>
+
+</div>
+
+<!-- Participant Profile Info Modal -->
+<div class="modal fade cf-modal" id="friendProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="cf-modal-banner">
+                <button type="button"
+                        class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="cf-modal-body">
+                <div class="d-flex justify-content-between align-items-end">
+                    <div class="cf-modal-avatar-wrap">
+                        <div class="profile-avatar avatar-xl">
+                            {% if friend.profile and friend.profile.image %}
+                                <img src="{{ friend.profile.image.url }}"
+                                     alt="{{ friend.username }}"
+                                     class="avatar-img">
+                            {% else %}
+                                {{ friend.username|first|upper }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if friend.profile and friend.profile.is_online %}
+                        <span class="status-pill mb-2">
+                            <span class="online-dot"></span>
+                            Online
+                        </span>
+                    {% else %}
+                        <span class="status-pill is-offline mb-2">
+                            Participant
+                        </span>
+                    {% endif %}
+                </div>
+
+                <h5 class="mb-1">{{ friend.username }}</h5>
+                <p class="text-secondary small mb-3">
+                    {% if friend.profile and friend.profile.bio %}
+                        {{ friend.profile.bio }}
+                    {% else %}
+                        ChatFlow Direct Contact
+                    {% endif %}
+                </p>
+
+                <div class="profile-meta-grid">
+                    <div class="profile-meta-box">
+                        <span>Username</span>
+                        <strong>@{{ friend.username }}</strong>
+                    </div>
+                    <div class="profile-meta-box">
+                        <span>Activity</span>
+                        <strong>
+                            {% if friend.profile and friend.profile.last_seen %}
+                                {{ friend.profile.last_seen|date:"M d, Y h:i A" }}
+                            {% else %}
+                                Direct Thread #{{ chat.id }}
+                            {% endif %}
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pages/chat.js' %}"></script>
+{% endblock %}

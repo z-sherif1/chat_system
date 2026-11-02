@@ -1,0 +1,83 @@
+/* ==========================================================================
+   Modals, Dropdowns & Drawers
+   ========================================================================== */
+
+.cf-dropdown {
+    position: relative;
+}
+
+.cf-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 210px;
+    background-color: var(--bg-surface-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    padding: 0.45rem;
+    z-index: 1050;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: all var(--transition-fast);
+}
+
+.cf-dropdown.is-open .cf-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.cf-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border-radius: var(--radius-xs);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    text-align: left;
+    transition: background-color var(--transition-fast);
+}
+
+.cf-dropdown-item:hover {
+    background-color: var(--bg-surface-hover);
+}
+
+.cf-dropdown-divider {
+    height: 1px;
+    background-color: var(--border-subtle);
+    margin: 0.35rem 0;
+}
+
+/* Profile Modal Styling */
+.cf-modal .modal-content {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+.cf-modal-banner {
+    height: 88px;
+    background: linear-gradient(135deg, var(--brand-navy-900) 0%, var(--brand-primary) 55%, var(--brand-violet) 100%);
+    position: relative;
+}
+
+.cf-modal-body {
+    padding: 0 1.5rem 1.5rem;
+    margin-top: -38px;
+    position: relative;
+}
+
+.cf-modal-avatar-wrap {
+    display: inline-flex;
+    padding: 4px;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-surface);
+    margin-bottom: 0.75rem;
+}

@@ -1,0 +1,123 @@
+/* ==========================================================================
+   ChatFlow Design Tokens (CSS Custom Properties)
+   Palette: Deep Navy, Soft Lavender, Electric Violet & Iris
+   ========================================================================== */
+
+:root {
+    /* Brand Identity Colors */
+    --brand-navy-950: #070A12;
+    --brand-navy-900: #0B0F19;
+    --brand-navy-800: #111827;
+    --brand-navy-700: #1E293B;
+
+    --brand-primary: #6366F1;
+    --brand-primary-hover: #4F46E5;
+    --brand-violet: #7C3AED;
+    --brand-lavender-soft: #EEF2FF;
+    --brand-lavender-border: #E0E7FF;
+    --brand-lavender-accent: #A5B4FC;
+
+    /* Semantic Colors */
+    --status-online: #10B981;
+    --status-online-soft: rgba(16, 185, 129, 0.14);
+    --status-offline: #94A3B8;
+    --status-warning: #F59E0B;
+    --status-danger: #F43F5E;
+    --status-danger-soft: rgba(244, 63, 94, 0.1);
+
+    /* Light Theme Surfaces (Default) */
+    --bg-app: #F4F6FB;
+    --bg-surface: #FFFFFF;
+    --bg-surface-elevated: #FFFFFF;
+    --bg-surface-subtle: #F8FAFC;
+    --bg-surface-hover: #F1F5F9;
+    --bg-glass: rgba(255, 255, 255, 0.86);
+
+    /* Sidebar Always Deep Navy for Signature Contrast */
+    --sidebar-bg: #0B0F19;
+    --sidebar-surface: #131B2E;
+    --sidebar-hover: rgba(255, 255, 255, 0.06);
+    --sidebar-active: rgba(99, 102, 241, 0.18);
+    --sidebar-border: rgba(255, 255, 255, 0.07);
+    --sidebar-text: #F8FAFC;
+    --sidebar-text-muted: #94A3B8;
+
+    /* Text Hierarchy */
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --text-muted: #64748B;
+    --text-on-brand: #FFFFFF;
+
+    /* Borders & Dividers */
+    --border-subtle: #E2E8F0;
+    --border-strong: #CBD5E1;
+    --border-focus: #6366F1;
+
+    /* Chat Bubble Tokens */
+    --bubble-sent-bg: linear-gradient(135deg, #6366F1 0%, #7C3AED 100%);
+    --bubble-sent-text: #FFFFFF;
+    --bubble-received-bg: #FFFFFF;
+    --bubble-received-text: #0F172A;
+    --bubble-received-border: #E2E8F0;
+
+    /* Shadows */
+    --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.06), 0 1px 3px -1px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.07), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 20px 40px -12px rgba(15, 23, 42, 0.12);
+    --shadow-brand: 0 8px 20px -4px rgba(99, 102, 241, 0.38);
+
+    /* Typography */
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --text-xs: 0.75rem;     /* 12px */
+    --text-sm: 0.84375rem;  /* 13.5px */
+    --text-base: 0.9375rem; /* 15px */
+    --text-lg: 1.0625rem;   /* 17px */
+    --text-xl: 1.25rem;     /* 20px */
+    --text-2xl: 1.5rem;     /* 24px */
+
+    /* Layout Dimensions */
+    --sidebar-width: 280px;
+    --topbar-height: 68px;
+
+    /* Border Radii */
+    --radius-xs: 6px;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+
+    /* Transitions */
+    --transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-base: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+    --bg-app: #070A12;
+    --bg-surface: #0F1626;
+    --bg-surface-elevated: #161F33;
+    --bg-surface-subtle: #0B101D;
+    --bg-surface-hover: #1B253B;
+    --bg-glass: rgba(15, 22, 38, 0.85);
+
+    --brand-lavender-soft: rgba(99, 102, 241, 0.15);
+    --brand-lavender-border: rgba(99, 102, 241, 0.28);
+
+    --text-primary: #F8FAFC;
+    --text-secondary: #CBD5E1;
+    --text-muted: #94A3B8;
+
+    --border-subtle: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.15);
+
+    --bubble-received-bg: #161F33;
+    --bubble-received-text: #F8FAFC;
+    --bubble-received-border: rgba(255, 255, 255, 0.08);
+
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.25);
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 28px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.55);
+}

@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Badges, Pills & Status Tags
+   ========================================================================== */
+
+.section-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 26px;
+    height: 24px;
+    padding: 0 0.55rem;
+    border-radius: var(--radius-full);
+    background-color: var(--brand-lavender-soft);
+    color: var(--brand-primary);
+    border: 1px solid var(--brand-lavender-border);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-full);
+    font-size: 0.72rem;
+    font-weight: 600;
+    background-color: var(--status-online-soft);
+    color: var(--status-online);
+}
+
+.status-pill.is-offline {
+    background-color: var(--bg-surface-subtle);
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle);
+}

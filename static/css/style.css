@@ -1,0 +1,26 @@
+/* ==========================================================================
+   ChatFlow Master Stylesheet Manifest
+   Imports modular base, component, and page stylesheets
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* 1. Base Architecture */
+@import url('base/variables.css');
+@import url('base/reset.css');
+@import url('base/typography.css');
+@import url('base/layout.css');
+
+/* 2. Reusable Components */
+@import url('components/buttons.css');
+@import url('components/forms.css');
+@import url('components/avatars.css');
+@import url('components/cards.css');
+@import url('components/badges.css');
+@import url('components/modals.css');
+
+/* 3. Page-Specific Modules */
+@import url('pages/home.css');
+@import url('pages/chat.css');
+@import url('pages/auth.css');
+@import url('pages/profile.css');

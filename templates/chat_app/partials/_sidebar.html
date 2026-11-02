@@ -1,0 +1,103 @@
+<aside class="sidebar" id="sidebar" aria-label="Primary Sidebar Navigation">
+
+    <div class="sidebar-header">
+        <a href="{% url 'home' %}" class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="bi bi-chat-dots-fill"></i>
+            </div>
+            <h4 class="brand-title">ChatFlow</h4>
+            <span class="brand-badge">PRO</span>
+        </a>
+
+        <button type="button" class="sidebar-close-btn" id="sidebarClose" aria-label="Close navigation">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+
+    <!-- Current Authenticated User Card (Opens Profile Modal) -->
+    <div class="profile-section"
+         role="button"
+         tabindex="0"
+         data-bs-toggle="modal"
+         data-bs-target="#currentUserProfileModal"
+         title="View your profile details">
+
+        <div class="profile-avatar">
+            {% if request.user.profile and request.user.profile.image %}
+                <img src="{{ request.user.profile.image.url }}"
+                     alt="{{ request.user.username }}"
+                     class="avatar-img">
+            {% else %}
+                {{ request.user.username|first|upper }}
+            {% endif %}
+            <span class="avatar-presence-badge"></span>
+        </div>
+
+        <div class="profile-info">
+            <h6>{{ request.user.username }}</h6>
+            <span class="profile-status">
+                <span class="online-dot"></span>
+                Active account
+            </span>
+        </div>
+
+        <i class="bi bi-chevron-expand text-secondary"></i>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="sidebar-menu">
+
+        <p class="menu-label">WORKSPACE</p>
+
+        <a href="{% url 'home' %}"
+           class="menu-item {% if request.resolver_match.url_name == 'home' or request.resolver_match.url_name == 'chat_detail' %}active{% endif %}">
+            <i class="bi bi-chat-left-text-fill"></i>
+            <span>Messages</span>
+            {% if chats %}
+                <span class="menu-item-badge">{{ chats|length }}</span>
+            {% endif %}
+        </a>
+
+        <a href="{% url 'home' %}#discover-users"
+           class="menu-item"
+           data-nav-scroll="#discover-users">
+            <i class="bi bi-people-fill"></i>
+            <span>All Users</span>
+            {% if users %}
+                <span class="menu-item-badge">{{ users|length }}</span>
+            {% endif %}
+        </a>
+
+        <button type="button"
+                class="menu-item"
+                data-bs-toggle="modal"
+                data-bs-target="#currentUserProfileModal">
+            <i class="bi bi-person-badge"></i>
+            <span>My Profile</span>
+        </button>
+
+        <p class="menu-label mt-4">PREFERENCES & ACCOUNT</p>
+
+        <button type="button" class="menu-item" data-theme-toggle>
+            <i class="bi bi-moon-stars" data-theme-icon></i>
+            <span data-theme-label>Dark Appearance</span>
+        </button>
+
+        <form method="POST" action="{% url 'logout' %}" class="w-100">
+            {% csrf_token %}
+            <button type="submit" class="menu-item logout-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </button>
+        </form>
+
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="sidebar-footer-security">
+            <i class="bi bi-shield-check"></i>
+            <span>ChatFlow Secure Messaging</span>
+        </div>
+    </div>
+
+</aside>

@@ -1,0 +1,238 @@
+{% extends 'chat_app/base.html' %}
+{% load static %}
+
+{% block title %}Home | ChatFlow{% endblock %}
+{% block page_heading %}Messages{% endblock %}
+
+{% block content %}
+
+<!-- Welcome Banner -->
+<div class="page-welcome">
+    <div>
+        <h3>Welcome back, {{ request.user.username }}</h3>
+        <p>Connect with your people and pick up right where you left off.</p>
+    </div>
+    <div class="d-none d-md-flex align-items-center gap-2">
+        <span class="status-pill">
+            <span class="online-dot"></span>
+            Connected
+        </span>
+    </div>
+</div>
+
+<!-- Overview Metrics -->
+<div class="row g-3 mb-4">
+    <div class="col-sm-6">
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                <i class="bi bi-chat-dots-fill"></i>
+            </div>
+            <div class="dashboard-card-meta">
+                <h5>{{ chats|length }}</h5>
+                <p>Total Conversations</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="dashboard-card">
+            <div class="dashboard-card-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="dashboard-card-meta">
+                <h5>{{ users|length }}</h5>
+                <p>Available Users</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Search & Section Filter Toolbar -->
+<div class="workspace-toolbar search-section">
+    <div class="workspace-search-wrap">
+        <div class="search-box">
+            <i class="bi bi-search"></i>
+            <input
+                type="text"
+                id="homeSearch"
+                placeholder="Search conversations or people by username..."
+                autocomplete="off"
+                aria-label="Search conversations or users"
+            >
+            <span class="search-shortcut-hint" id="searchShortcutHint">/</span>
+            <button type="button"
+                    class="search-clear-btn"
+                    id="searchClearBtn"
+                    aria-label="Clear search">
+                <i class="bi bi-x"></i>
+            </button>
+        </div>
+    </div>
+
+    <div class="filter-tabs" role="tablist" aria-label="Filter dashboard sections">
+        <button type="button" class="filter-tab-btn is-active" data-filter-section="all">
+            All ({{ chats|length|add:users|length }})
+        </button>
+        <button type="button" class="filter-tab-btn" data-filter-section="chats">
+            Conversations ({{ chats|length }})
+        </button>
+        <button type="button" class="filter-tab-btn" data-filter-section="users">
+            People ({{ users|length }})
+        </button>
+    </div>
+</div>
+
+<div class="row g-4">
+
+    <!-- My Conversations Column -->
+    <div class="col-lg-6" id="conversationsSection" data-section-panel="chats">
+
+        <div class="section-header">
+            <div>
+                <h5>My Conversations</h5>
+                <p>Your active direct message threads</p>
+            </div>
+            <span class="section-count">{{ chats|length }}</span>
+        </div>
+
+        <div class="items-container" id="chatsList">
+
+            {% for chat in chats %}
+                <div class="chat-card searchable-item"
+                     data-search-text="{% for participant in chat.participants.all %}{% if participant != request.user %}{{ participant.username|lower }}{% endif %}{% endfor %}">
+
+                    <div class="chat-card-avatar">
+                        {% for participant in chat.participants.all %}
+                            {% if participant != request.user %}
+                                {% if participant.profile and participant.profile.image %}
+                                    <img src="{{ participant.profile.image.url }}"
+                                         alt="{{ participant.username }}"
+                                         class="avatar-img">
+                                {% else %}
+                                    {{ participant.username|first|upper }}
+                                {% endif %}
+                                {% if participant.profile and participant.profile.is_online %}
+                                    <span class="avatar-presence-badge" title="Online"></span>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="chat-card-info">
+                        {% for participant in chat.participants.all %}
+                            {% if participant != request.user %}
+                                <h6>{{ participant.username }}</h6>
+                            {% endif %}
+                        {% endfor %}
+                        <p>
+                            {% with last_msg=chat.messages.last %}
+                                {% if last_msg %}
+                                    {{ last_msg.content|truncatechars:48 }}
+                                {% else %}
+                                    Open your conversation
+                                {% endif %}
+                            {% endwith %}
+                        </p>
+                    </div>
+
+                    <a href="{% url 'chat_detail' chat.id %}"
+                       class="open-chat-btn stretched-link"
+                       title="Open conversation">
+                        <i class="bi bi-arrow-up-right"></i>
+                    </a>
+
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="bi bi-chat-square-dots"></i>
+                    </div>
+                    <h5>No conversations yet</h5>
+                    <p>Select someone from Discover People to start your first conversation.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+    <!-- All Users / Discover People Column -->
+    <div class="col-lg-6" id="discover-users" data-section-panel="users">
+
+        <div class="section-header">
+            <div>
+                <h5>Discover People</h5>
+                <p>Find someone and start chatting</p>
+            </div>
+            <span class="section-count">{{ users|length }}</span>
+        </div>
+
+        <div class="items-container" id="usersList">
+
+            {% for user in users %}
+                <div class="chat-card searchable-item"
+                     data-search-text="{{ user.username|lower }}">
+
+                    <div class="chat-card-avatar">
+                        {% if user.profile and user.profile.image %}
+                            <img src="{{ user.profile.image.url }}"
+                                 alt="{{ user.username }}"
+                                 class="avatar-img">
+                        {% else %}
+                            {{ user.username|first|upper }}
+                        {% endif %}
+                        {% if user.profile and user.profile.is_online %}
+                            <span class="avatar-presence-badge" title="Online"></span>
+                        {% endif %}
+                    </div>
+
+                    <div class="chat-card-info">
+                        <h6>{{ user.username }}</h6>
+                        <p>
+                            {% if user.profile and user.profile.bio %}
+                                {{ user.profile.bio|truncatechars:46 }}
+                            {% elif user.profile and user.profile.last_seen %}
+                                Last seen {{ user.profile.last_seen|timesince }} ago
+                            {% else %}
+                                Available to chat
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <a href="{% url 'start_chat' user.id %}"
+                       class="start-chat-btn">
+                        <i class="bi bi-chat-dots"></i>
+                        <span>Chat</span>
+                    </a>
+
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h5>No users found</h5>
+                    <p>There are no other registered users yet.</p>
+                </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Search Filter Empty Feedback -->
+<div class="empty-state search-no-results" id="searchEmptyState">
+    <div class="empty-state-icon">
+        <i class="bi bi-search"></i>
+    </div>
+    <h5>No matching results</h5>
+    <p>No conversations or users matched "<span id="searchQueryPreview"></span>".</p>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/components/search.js' %}"></script>
+<script src="{% static 'js/pages/home.js' %}"></script>
+{% endblock %}

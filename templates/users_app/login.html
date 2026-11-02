@@ -1,0 +1,66 @@
+{% extends 'users_app/base.html' %}
+
+{% block title %}Login | ChatFlow{% endblock %}
+
+{% block content %}
+
+<div class="auth-wrapper">
+
+    <div class="auth-brand d-lg-none">
+        <div class="brand-icon">
+            <i class="bi bi-chat-dots-fill"></i>
+        </div>
+        <span>ChatFlow</span>
+    </div>
+
+    <div class="auth-card">
+
+        <div class="auth-heading">
+            <div class="auth-icon">
+                <i class="bi bi-person-circle"></i>
+            </div>
+
+            <h2>Welcome Back!</h2>
+            <p>Sign in to continue your conversations.</p>
+        </div>
+
+        <form method="POST" action="{% url 'login' %}" novalidate>
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="alert alert-danger auth-alert" role="alert">
+                    <i class="bi bi-exclamation-circle-fill me-1"></i>
+                    Your username or password is incorrect. Please try again.
+                </div>
+            {% endif %}
+
+            <div class="auth-form-fields">
+                {{ form.as_p }}
+            </div>
+
+            <button type="submit" class="auth-submit-btn">
+                <span>Sign In</span>
+                <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </form>
+
+        <div class="auth-divider">
+            <span>NEW TO CHATFLOW?</span>
+        </div>
+
+        <p class="auth-switch">
+            Don't have an account?
+            <a href="{% url 'register' %}">Create Account</a>
+        </p>
+
+    </div>
+
+    <p class="auth-footer">
+        <i class="bi bi-shield-check"></i>
+        Your conversations are private and secure.
+    </p>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Home / Messaging Dashboard Page Styles
+   ========================================================================== */
+
+.page-welcome {
+    background: linear-gradient(135deg, var(--brand-navy-900) 0%, #1E1B4B 60%, #312E81 100%);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.75rem;
+    color: #FFFFFF;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.page-welcome::after {
+    content: "";
+    position: absolute;
+    right: -40px;
+    top: -40px;
+    width: 180px;
+    height: 180px;
+    border-radius: var(--radius-full);
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.35) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.page-welcome h3 {
+    color: #FFFFFF;
+    font-size: var(--text-xl);
+    margin-bottom: 0.25rem;
+}
+
+.page-welcome p {
+    color: #CBD5E1;
+    font-size: var(--text-sm);
+    margin: 0;
+}
+
+/* Filter Toolbar */
+.workspace-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.workspace-search-wrap {
+    flex: 1;
+    min-width: 260px;
+}
+
+.filter-tabs {
+    display: inline-flex;
+    padding: 0.25rem;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+}
+
+.filter-tab-btn {
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.filter-tab-btn.is-active {
+    background-color: var(--brand-primary);
+    color: #FFFFFF;
+    box-shadow: var(--shadow-xs);
+}
+
+/* Section Headers */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+    padding: 0 0.15rem;
+}
+
+.section-header h5 {
+    font-size: var(--text-base);
+    font-weight: 700;
+    margin: 0 0 0.1rem 0;
+}
+
+.section-header p {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.items-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.search-no-results {
+    display: none;
+    margin-top: 0.5rem;
+}
+
+.search-no-results.is-visible {
+    display: block;
+}

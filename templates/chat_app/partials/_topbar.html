@@ -1,0 +1,47 @@
+<header class="topbar">
+
+    <div class="topbar-left">
+        <button type="button"
+                class="sidebar-toggle"
+                id="sidebarToggle"
+                aria-label="Toggle navigation menu"
+                aria-expanded="false">
+            <i class="bi bi-list"></i>
+        </button>
+
+        <div class="topbar-title">
+            <h5>{{ page_heading_text|default:"Messages" }}</h5>
+            <p>Stay connected with your people</p>
+        </div>
+    </div>
+
+    <div class="topbar-actions">
+
+        <button type="button"
+                class="btn-icon"
+                data-theme-toggle
+                title="Switch color theme"
+                aria-label="Switch color theme">
+            <i class="bi bi-moon-stars" data-theme-icon></i>
+        </button>
+
+        <button type="button"
+                class="topbar-user-pill"
+                data-bs-toggle="modal"
+                data-bs-target="#currentUserProfileModal"
+                title="View account profile">
+            <span class="topbar-user-name">{{ request.user.username }}</span>
+            <div class="small-avatar">
+                {% if request.user.profile and request.user.profile.image %}
+                    <img src="{{ request.user.profile.image.url }}"
+                         alt="{{ request.user.username }}"
+                         class="avatar-img">
+                {% else %}
+                    {{ request.user.username|first|upper }}
+                {% endif %}
+            </div>
+        </button>
+
+    </div>
+
+</header>
